@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>IQ QUIZ | C++ KERNEL — Neural Showcase</title>
+    <title>IQ QUIZ | C++ OOP Project — Intelligence · Challenge · Compete</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.158.0/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -33,7 +33,6 @@
             z-index: 1; 
         }
 
-        /* UI Overlay */
         .ui-layer { 
             position: relative; 
             z-index: 10; 
@@ -47,23 +46,23 @@
             flex-direction: column; 
             justify-content: center; 
             align-items: center; 
-            padding: 4rem 2rem;
+            padding: 5rem 2rem;
             opacity: 0;
             transform: translateY(50px);
             pointer-events: auto;
         }
 
-        /* Futuristic Navbar - Mobile Responsive */
+        /* FIXED NAVBAR - now properly fixed */
         .neon-nav {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 1000;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(0, 243, 255, 0.25);
-            transition: transform 0.4s ease, background 0.3s ease;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 243, 255, 0.35);
+            transition: transform 0.3s ease, background 0.3s ease;
             pointer-events: auto;
         }
         
@@ -71,7 +70,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 2rem;
+            padding: 0.9rem 2rem;
             max-width: 1400px;
             margin: 0 auto;
         }
@@ -85,18 +84,16 @@
             background-clip: text;
             color: transparent;
             letter-spacing: 2px;
-            z-index: 1001;
         }
         
-        /* Desktop Navigation */
         .nav-links {
             display: flex;
-            gap: 2.5rem;
+            gap: 2rem;
         }
         
         .nav-link {
             font-weight: 400;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             letter-spacing: 2px;
             text-transform: uppercase;
             color: #ccc;
@@ -125,7 +122,7 @@
             width: 100%;
         }
         
-        /* Mobile Menu Button */
+        /* Mobile Menu */
         .menu-btn {
             display: none;
             background: none;
@@ -143,8 +140,7 @@
             transition: all 0.3s ease;
         }
         
-        .menu-icon::before,
-        .menu-icon::after {
+        .menu-icon::before, .menu-icon::after {
             content: '';
             position: absolute;
             width: 28px;
@@ -153,27 +149,13 @@
             transition: all 0.3s ease;
         }
         
-        .menu-icon::before {
-            transform: translateY(-8px);
-        }
+        .menu-icon::before { transform: translateY(-8px); }
+        .menu-icon::after { transform: translateY(8px); }
         
-        .menu-icon::after {
-            transform: translateY(8px);
-        }
+        .menu-btn.active .menu-icon { background: transparent; }
+        .menu-btn.active .menu-icon::before { transform: rotate(45deg); }
+        .menu-btn.active .menu-icon::after { transform: rotate(-45deg); }
         
-        .menu-btn.active .menu-icon {
-            background: transparent;
-        }
-        
-        .menu-btn.active .menu-icon::before {
-            transform: rotate(45deg);
-        }
-        
-        .menu-btn.active .menu-icon::after {
-            transform: rotate(-45deg);
-        }
-        
-        /* Mobile Nav Overlay */
         .mobile-nav {
             position: fixed;
             top: 0;
@@ -181,8 +163,8 @@
             width: 70%;
             max-width: 280px;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.96);
+            backdrop-filter: blur(24px);
             z-index: 999;
             display: flex;
             flex-direction: column;
@@ -190,16 +172,13 @@
             align-items: center;
             gap: 2rem;
             transition: right 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            border-left: 1px solid rgba(0, 243, 255, 0.3);
+            border-left: 1px solid rgba(0, 243, 255, 0.4);
         }
         
-        .mobile-nav.active {
-            right: 0;
-        }
-        
+        .mobile-nav.active { right: 0; }
         .mobile-nav-link {
             font-family: 'Orbitron', monospace;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             letter-spacing: 3px;
             color: #ddd;
             text-transform: uppercase;
@@ -207,41 +186,48 @@
             padding: 0.8rem;
             transition: all 0.3s;
         }
-        
-        .mobile-nav-link:hover {
-            color: #00f3ff;
-            letter-spacing: 5px;
-        }
+        .mobile-nav-link:hover { color: #00f3ff; letter-spacing: 5px; }
         
         .hero-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: clamp(2.5rem, 10vw, 8rem);
-            line-height: 0.85;
+            font-size: clamp(2.5rem, 10vw, 7rem);
+            line-height: 0.9;
             background: linear-gradient(180deg, #fff 20%, rgba(0, 243, 255, 0.9) 80%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             text-align: center;
-            filter: drop-shadow(0 0 15px rgba(0,243,255,0.3));
-        }
-
-        .glass-ui {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 243, 255, 0.2);
-            padding: 1.8rem;
-            border-radius: 24px;
-            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            transform-origin: center;
         }
         
-        .glass-ui:hover {
-            border-color: rgba(0, 243, 255, 0.7);
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px -15px rgba(0, 243, 255, 0.2);
-            background: rgba(255, 255, 255, 0.06);
+        .khmer-text {
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: 1px;
         }
-
+        
+        .glass-card {
+            background: rgba(10, 20, 35, 0.5);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            border-radius: 24px;
+            transition: all 0.4s ease;
+        }
+        
+        .glass-card:hover {
+            border-color: rgba(0, 243, 255, 0.6);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 35px -12px rgba(0, 200, 255, 0.2);
+        }
+        
+        .feature-badge {
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 12px;
+            padding: 0.5rem 1rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+        }
+        
         .tech-badge {
             font-family: 'Orbitron', monospace;
             color: #00f3ff;
@@ -253,95 +239,6 @@
             background: rgba(0, 243, 255, 0.05);
             border-radius: 40px;
         }
-
-        .scroll-pill {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: 60px;
-            background: linear-gradient(to bottom, #00f3ff, transparent);
-            z-index: 100;
-            opacity: 0.6;
-        }
-        
-        /* Features Grid */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.8rem;
-            width: 100%;
-            max-width: 1300px;
-            margin: 0 auto;
-        }
-        
-        /* Team Cards */
-        .team-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 2rem;
-            max-width: 1300px;
-            margin: 0 auto;
-        }
-        
-        .team-card {
-            background: rgba(10, 20, 30, 0.6);
-            backdrop-filter: blur(16px);
-            border-radius: 28px;
-            padding: 1.8rem 1.5rem;
-            width: 260px;
-            text-align: center;
-            transition: all 0.45s cubic-bezier(0.2, 0.9, 0.4, 1.2);
-            border: 1px solid rgba(0, 200, 255, 0.25);
-            cursor: pointer;
-        }
-        
-        .team-card:hover {
-            transform: translateY(-12px) scale(1.02);
-            border-color: #00f3ff;
-            box-shadow: 0 25px 35px -12px rgba(0, 200, 255, 0.3);
-        }
-        
-        .team-avatar {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            margin: 0 auto 1rem;
-            object-fit: cover;
-            border: 2px solid rgba(0, 243, 255, 0.5);
-            transition: all 0.3s ease;
-        }
-        
-        .team-card:hover .team-avatar {
-            border-color: #00f3ff;
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
-            transform: scale(1.02);
-        }
-        
-        .team-name {
-            font-size: 1.3rem;
-            font-weight: 600;
-            background: linear-gradient(135deg, #fff, #a0e9ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        .team-role {
-            font-size: 0.8rem;
-            color: #00f3ff;
-            letter-spacing: 1px;
-            margin-top: 0.25rem;
-        }
-        
-        .team-bio {
-            font-size: 0.7rem;
-            color: #aaa;
-            margin-top: 0.75rem;
-            line-height: 1.4;
-        }
         
         .section-title {
             font-size: clamp(2rem, 6vw, 3rem);
@@ -352,434 +249,438 @@
             color: transparent;
             margin-bottom: 2rem;
             text-align: center;
-            letter-spacing: -0.02em;
         }
         
-        /* Code block responsive */
-        .code-snippet {
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 20px;
-            padding: 1.5rem;
-            font-family: monospace;
-            border-left: 4px solid #00f3ff;
-            overflow-x: auto;
+        /* Enhanced Team Card Styles with Cool Animations */
+        .team-card {
+            background: rgba(8, 18, 30, 0.65);
+            backdrop-filter: blur(16px);
+            border-radius: 32px;
+            padding: 1.8rem 1.5rem;
+            width: 260px;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            border: 1px solid rgba(0, 200, 255, 0.3);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
         
-        pre {
-            font-family: 'Courier New', monospace;
-            font-size: clamp(0.7rem, 3vw, 0.85rem);
-            color: #8efff8;
-            white-space: pre-wrap;
-            word-break: break-word;
-        }
-        
-        .glow-line {
-            height: 1px;
-            background: linear-gradient(90deg, #00f3ff, #a855f7, transparent);
+        .team-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
             width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.15), transparent);
+            transition: left 0.6s ease;
+            z-index: 0;
         }
         
-        /* Reveal animations */
+        .team-card:hover::before {
+            left: 100%;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: #00f3ff;
+            box-shadow: 0 30px 45px -15px rgba(0, 200, 255, 0.4);
+            background: rgba(15, 35, 60, 0.8);
+        }
+        
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(0, 243, 255, 0.5);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5);
+        }
+        
+        .team-card:hover .team-avatar {
+            border-color: #00f3ff;
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.5);
+        }
+        
+        .team-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 1rem;
+            background: linear-gradient(135deg, #fff, #a0e9ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            transition: all 0.3s;
+        }
+        
+        .team-card:hover .team-name {
+            letter-spacing: 0.5px;
+        }
+        
+        .team-id {
+            font-size: 0.7rem;
+            color: #00f3ff;
+            font-family: 'Orbitron', monospace;
+            margin-top: 0.3rem;
+            letter-spacing: 1px;
+        }
+        
+        .team-role-glow {
+            font-size: 0.75rem;
+            color: #aaa;
+            margin-top: 0.5rem;
+            transition: all 0.3s;
+        }
+        
+        .team-card:hover .team-role-glow {
+            color: #c0e0ff;
+        }
+        
+        .scroll-pill {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 55px;
+            background: linear-gradient(to bottom, #00f3ff, transparent);
+            z-index: 100;
+            opacity: 0.6;
+        }
+        
         .reveal-item {
             opacity: 0;
             transform: translateY(40px);
-            transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal-item.revealed { opacity: 1; transform: translateY(0); }
+        
+        /* Team grid enhanced */
+        .team-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            max-width: 1300px;
+            margin: 0 auto;
         }
         
-        .reveal-item.revealed {
-            opacity: 1;
-            transform: translateY(0);
+        /* Cool floating animation for team cards */
+        @keyframes floatGlow {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
         }
         
-        /* Mobile responsive adjustments */
+        .team-card {
+            animation: floatGlow 4s ease-in-out infinite;
+            animation-delay: calc(var(--i, 0) * 0.2s);
+        }
+        
+        .team-card:nth-child(1) { --i: 0; }
+        .team-card:nth-child(2) { --i: 1; }
+        .team-card:nth-child(3) { --i: 2; }
+        .team-card:nth-child(4) { --i: 3; }
+        .team-card:nth-child(5) { --i: 4; }
+        
+        .team-card:hover {
+            animation-play-state: paused;
+        }
+        
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
+            .hero-title{
+                font-size: 60px;
             }
-            
-            .menu-btn {
-                display: block;
-            }
-            
-            .nav-container {
-                padding: 0.8rem 1.2rem;
-            }
-            
-            section {
-                padding: 3rem 1.2rem;
-                justify-content: center;
-                text-align: center;
-            }
-            
-            .features-grid {
-                gap: 1.2rem;
-                grid-template-columns: 1fr;
-            }
-            
-            .team-card {
-                width: 100%;
-                max-width: 280px;
-            }
-            
-            .team-grid {
-                gap: 1.5rem;
-            }
-            
-            .glass-ui {
-                padding: 1.3rem;
-            }
-            
-            .hero-title {
-                font-size: 70px;
-                line-height: 1;
-                margin-bottom: 0.5rem;
-            }
-            
-            .tech-badge {
-                font-size: 0.6rem;
-            }
-            
-            .scroll-pill {
-                height: 45px;
-                bottom: 20px;
-            }
+            .nav-links { display: none; }
+            .menu-btn { display: block; }
+            section { padding: 4rem 1.2rem; }
+            .team-avatar { width: 95px; height: 95px; }
+            .team-card { width: 220px; padding: 1.2rem; animation: none; }
+            .feature-badge { font-size: 0.6rem; padding: 0.3rem 0.8rem; }
+            .neon-nav .nav-container { padding: 0.7rem 1.2rem; }
         }
         
-        /* Extra small devices */
-        @media (max-width: 480px) {
-            .team-avatar {
-                width: 90px;
-                height: 90px;
-            }
-            
-            .team-name {
-                font-size: 1.1rem;
-            }
-            
-            .team-role {
-                font-size: 0.7rem;
-            }
-            
-            .glass-ui h3 {
-                font-size: 1.3rem;
-            }
+        @media (max-width: 550px) {
+            .team-grid { gap: 1.2rem; }
+            .team-card { width: 100%; max-width: 280px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Neon Navbar -->
-    <div class="neon-nav">
+    <!-- FIXED NAVBAR - position fixed working -->
+    <div class="neon-nav" id="navbar">
         <div class="nav-container">
-            <div class="logo">IQ::KERNEL</div>
+            <div class="logo">IQ::QUIZ</div>
             <div class="nav-links">
                 <div class="nav-link" data-nav="home">Home</div>
+                <div class="nav-link" data-nav="overview">Overview</div>
                 <div class="nav-link" data-nav="features">Features</div>
                 <div class="nav-link" data-nav="team">Team</div>
-                <div class="nav-link" data-nav="tech">Technology</div>
+                <div class="nav-link" data-nav="tech">Stack</div>
             </div>
-            <button class="menu-btn" id="menuBtn" aria-label="Menu">
-                <div class="menu-icon"></div>
-            </button>
+            <button class="menu-btn" id="menuBtn"><div class="menu-icon"></div></button>
         </div>
     </div>
-
-    <!-- Mobile Navigation Menu -->
+    
     <div class="mobile-nav" id="mobileNav">
         <div class="mobile-nav-link" data-nav="home">Home</div>
+        <div class="mobile-nav-link" data-nav="overview">Overview</div>
         <div class="mobile-nav-link" data-nav="features">Features</div>
         <div class="mobile-nav-link" data-nav="team">Team</div>
-        <div class="mobile-nav-link" data-nav="tech">Technology</div>
+        <div class="mobile-nav-link" data-nav="tech">Stack</div>
     </div>
 
     <div class="scroll-pill"></div>
-
     <canvas id="bg"></canvas>
 
     <div class="ui-layer">
         <!-- HOME Section -->
-        <section id="home" style="opacity: 1; transform: translateY(0);">
-            <div class="tech-badge mb-4">Memory Safe C++ Logic</div>
+        <section id="home" style="opacity:1; transform:translateY(0)">
+            <div class="tech-badge mb-4">C++ / OOP · Assignment Project</div>
             <h1 class="hero-title">IQ QUIZ<br>GAME</h1>
-            <p class="mt-6 text-cyan-400 font-light tracking-[0.3em] uppercase text-xs sm:text-sm">Initiating Neural Simulation</p>
-            <div class="mt-10 flex gap-3">
-                <div class="w-10 h-[2px] bg-cyan-500/50"></div>
-                <div class="w-10 h-[2px] bg-cyan-500/80"></div>
-                <div class="w-10 h-[2px] bg-cyan-500"></div>
+            <p class="text-cyan-400 font-light tracking-widest text-sm mt-4">Intelligence · Challenge · Compete</p>
+            <p class="text-gray-400 text-center max-w-xl mt-6 khmer-text">ល្បែងសំណួរល្បងប្រាជ្ញា — ដើម្បីកម្សាន្ត ស្វែងរកចំណេះដឹង និងប្រកួតប្រជែងពិន្ទុ</p>
+            <div class="flex gap-6 mt-8 flex-wrap justify-center">
+                <span class="feature-badge">C++</span>
+                <span class="feature-badge">Dev C++</span>
+                <span class="feature-badge">Binary File</span>
+                <span class="feature-badge">OOP</span>
+                <span class="feature-badge">5 Members</span>
             </div>
+            <div class="mt-8 text-xs text-gray-500 tracking-widest">SCROLL</div>
         </section>
 
-        <!-- FEATURES Section -->
-        <section id="features">
-            <h2 class="section-title reveal-item">⚡ COGNITIVE MODULES</h2>
-            <div class="features-grid">
-                <div class="glass-ui reveal-item" style="transition-delay: 0.1s">
-                    <div class="text-4xl mb-3">🧠</div>
-                    <h3 class="text-xl md:text-2xl font-bold mb-2">ADAPTIVE_CORE</h3>
-                    <p class="text-gray-400 font-light text-sm">Real-time C++ complexity scaling based on cognitive reaction speed & accuracy metrics.</p>
-                    <div class="mt-3 text-xs text-cyan-400">latency: 0.3ms</div>
-                </div>
-                <div class="glass-ui reveal-item" style="transition-delay: 0.2s">
-                    <div class="text-4xl mb-3">⚡</div>
-                    <h3 class="text-xl md:text-2xl font-bold mb-2">LOW_LATENCY</h3>
-                    <p class="text-gray-400 font-light text-sm">Deterministic logic processing with zero-overhead memory management & lock-free queues.</p>
-                    <div class="mt-3 text-xs text-cyan-400">SIMD optimized</div>
-                </div>
-                <div class="glass-ui reveal-item" style="transition-delay: 0.3s">
-                    <div class="text-4xl mb-3">🏆</div>
-                    <h3 class="text-xl md:text-2xl font-bold mb-2">DYNAMIC SCORING</h3>
-                    <p class="text-gray-400 font-light text-sm">Multi-dimensional analytics: reaction time, logic depth, and pattern recognition scoring.</p>
-                    <div class="mt-3 text-xs text-cyan-400">ELO based</div>
-                </div>
-                <div class="glass-ui reveal-item" style="transition-delay: 0.4s">
+        <!-- OVERVIEW Section -->
+        <section id="overview">
+            <h2 class="section-title reveal-item">Overview</h2>
+            <div class="grid md:grid-cols-2 gap-6 max-w-5xl w-full">
+                <div class="glass-card p-6 reveal-item">
                     <div class="text-4xl mb-3">🎯</div>
-                    <h3 class="text-xl md:text-2xl font-bold mb-2">LOGIC CHALLENGES</h3>
-                    <p class="text-gray-400 font-light text-sm">1000+ procedural riddles, memory matrices & numerical sequences generated at runtime.</p>
-                    <div class="mt-3 text-xs text-cyan-400">infinite replay</div>
+                    <h3 class="text-xl font-bold mb-2">Purpose</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed">Quiz IQ ត្រូវបានបង្កើតឡើងក្នុងគោលបំណងជាល្បែងសំណួរកម្សាន្ត នៅពេលទំនេរ បន្ទាប់ពីការសិក្សា ឬការងារ ដើម្បីកាត់បន្ថយភាពតានតឹង និងបង្កើននូវចំណេះដឹង។</p>
+                </div>
+                <div class="glass-card p-6 reveal-item">
+                    <div class="text-4xl mb-3">🧠</div>
+                    <h3 class="text-xl font-bold mb-2">Gameplay</h3>
+                    <p class="text-gray-300 text-sm">Player អាចឆ្លើយសំណួរចំណេះដឹងទូទៅ ទាក់ទងទៅនឹងសង្គម ប្រវត្តិសាស្រ្ត គណិតវិទ្យា ហើយប្រកួតពិន្ទុ Top Player ជាមួយអ្នកលេងផ្សេងទៀត។</p>
+                </div>
+                <div class="glass-card p-6 reveal-item">
+                    <div class="text-4xl mb-3">🔐</div>
+                    <h3 class="text-xl font-bold mb-2">Account System</h3>
+                    <p class="text-gray-300 text-sm">Player អាចបង្កើត Account, Log in, Sign in ជា Account ផ្ទាល់ខ្លួន ហើយទិន្ន័យរបស់ Player ត្រូវបានរក្សាទុកក្នុង File ដោយមិនបាត់បង់។</p>
+                </div>
+                <div class="glass-card p-6 reveal-item">
+                    <div class="text-4xl mb-3">🏆</div>
+                    <h3 class="text-xl font-bold mb-2">Competition</h3>
+                    <p class="text-gray-300 text-sm">Player អាចប្រកួតប្រជែងពិន្ទុគ្នា ដើម្បីស្វែងរក Top Player ហើយ Score ទាំងអស់ត្រូវបានរក្សាទុកជាអចិន្ត្រៃយ៍ក្នុង Binary File។</p>
                 </div>
             </div>
         </section>
 
-        <!-- TEAM Section with Images -->
+        <!-- FEATURES Section (12 Features) -->
+        <section id="features">
+            <h2 class="section-title reveal-item">Game Features</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl w-full">
+                <div class="glass-card p-4 text-center reveal-item"><div class="text-2xl mb-1">🔐</div><p class="font-bold text-sm">Sign In / Log In</p><p class="text-xs text-gray-400">Account system</p></div>
+                <div class="glass-card p-4 text-center reveal-item"><div class="text-2xl mb-1">📊</div><p class="font-bold text-sm">Score System</p><p class="text-xs text-gray-400">Track multiple sessions</p></div>
+                <div class="glass-card p-4 text-center reveal-item"><div class="text-2xl mb-1">❓</div><p class="font-bold text-sm">Q&A Format</p><p class="text-xs text-gray-400">General knowledge</p></div>
+                <div class="glass-card p-4 text-center reveal-item"><div class="text-2xl mb-1">✓✗</div><p class="font-bold text-sm">True & False</p><p class="text-xs text-gray-400">Quick challenge</p></div>
+                <div class="glass-card p-4 text-center reveal-item"><div class="text-2xl mb-1">📜</div><p class="font-bold text-sm">History</p><p class="text-xs text-gray-400">Historical category</p></div>
+                <div class="glass-card p-4 text-center reveal-item"><div class="text-2xl mb-1">📐</div><p class="font-bold text-sm">Mathematics</p><p class="text-xs text-gray-400">Math-based quiz</p></div>
+                <div class="glass-card p-4 text-center reveal-item"><div class="text-2xl mb-1">✨</div><p class="font-bold text-sm">Animations</p><p class="text-xs text-gray-400">Loading & outro</p></div>
+                <div class="glass-card p-4 text-center reveal-item"><div class="text-2xl mb-1">🔊</div><p class="font-bold text-sm">Sound Effects</p><p class="text-xs text-gray-400">Immersive audio</p></div>
+                <div class="glass-card p-4 text-center reveal-item"><div class="text-2xl mb-1">⌨️</div><p class="font-bold text-sm">Keyboard Controls</p><p class="text-xs text-gray-400">Full control system</p></div>
+                <div class="glass-card p-4 text-center reveal-item"><div class="text-2xl mb-1">🏅</div><p class="font-bold text-sm">Top Player</p><p class="text-xs text-gray-400">Leaderboard & ranking</p></div>
+                <div class="glass-card p-4 text-center reveal-item"><div class="text-2xl mb-1">⚠️</div><p class="font-bold text-sm">Warning Messages</p><p class="text-xs text-gray-400">Exit confirmation</p></div>
+                <div class="glass-card p-4 text-center reveal-item"><div class="text-2xl mb-1">💾</div><p class="font-bold text-sm">Binary File Storage</p><p class="text-xs text-gray-400">Persistent data</p></div>
+            </div>
+        </section>
+
+        <!-- ENHANCED TEAM Section with Cool Animations & Images -->
         <section id="team">
-            <h2 class="section-title reveal-item">NEURAL ARCHITECTS</h2>
+            <h2 class="section-title reveal-item">The Crew</h2>
             <div class="team-grid">
                 <div class="team-card reveal-item">
-                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Dr. Elena Voss" class="team-avatar">
-                    <div class="team-name">Dr. Elena Voss</div>
-                    <div class="team-role">Lead Cognitive Designer</div>
-                    <div class="team-bio">Ex-Neuroscape · Ph.D. Neuroscience · 12+ years experience</div>
+                    <img src="https://randomuser.me/api/portraits/men/11.jpg" alt="Say Mengkheang" class="team-avatar">
+                    <div class="team-name">Say Mengkheang</div>
+                    <div class="team-id">ID · 5832</div>
+                    <div class="team-role-glow">សាយ ម៉េងឃាង</div>
                 </div>
                 <div class="team-card reveal-item">
-                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Marcus Chen" class="team-avatar">
-                    <div class="team-name">Marcus Chen</div>
-                    <div class="team-role">C++ Core Architect</div>
-                    <div class="team-bio">Low-latency specialist · Lock-free data structures · SIMD expert</div>
+                    <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Keo Sereiratana" class="team-avatar">
+                    <div class="team-name">Keo Sereiratana</div>
+                    <div class="team-id">ID · 5833</div>
+                    <div class="team-role-glow">កែវ សេរីរតនា</div>
                 </div>
                 <div class="team-card reveal-item">
-                    <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Sophia Ramirez" class="team-avatar">
-                    <div class="team-name">Sophia Ramirez</div>
-                    <div class="team-role">UX & Motion Director</div>
-                    <div class="team-bio">Fluid Interactions · Neural UI design · Award-winning motion</div>
+                    <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="Sothea Vathana" class="team-avatar">
+                    <div class="team-name">Sothea Vathana</div>
+                    <div class="team-id">ID · 5800</div>
+                    <div class="team-role-glow">សុធា វឌ្ឍនា</div>
                 </div>
                 <div class="team-card reveal-item">
-                    <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Alexei Volkov" class="team-avatar">
-                    <div class="team-name">Alexei Volkov</div>
-                    <div class="team-role">AI Logic Integration</div>
-                    <div class="team-bio">Procedural difficulty · Machine learning · Real-time adaptation</div>
+                    <img src="https://randomuser.me/api/portraits/men/55.jpg" alt="Roth Reach" class="team-avatar">
+                    <div class="team-name">Roth Reach</div>
+                    <div class="team-id">ID · 5829</div>
+                    <div class="team-role-glow">រត័្ន រាជ្យ</div>
+                </div>
+                <div class="team-card reveal-item">
+                    <img src="https://randomuser.me/api/portraits/men/66.jpg" alt="Song Sovanroth" class="team-avatar">
+                    <div class="team-name">Song Sovanroth</div>
+                    <div class="team-id">ID · 5826</div>
+                    <div class="team-role-glow">សុង សុវណ្ណរត័្ន</div>
                 </div>
             </div>
         </section>
 
-        <!-- TECHNOLOGY Section -->
+        <!-- TECHNOLOGY Stack & Instructors -->
         <section id="tech">
-            <h2 class="section-title reveal-item">⚙️ C++ ENGINE CORE</h2>
-            <div class="flex flex-col lg:flex-row gap-6 justify-center max-w-6xl w-full">
-                <div class="glass-ui w-full lg:w-2/3 reveal-item">
-                    <div class="flex flex-wrap items-center gap-2 mb-4">
-                        <div class="w-3 h-3 rounded-full bg-cyan-500 animate-pulse"></div>
-                        <span class="text-xs font-mono opacity-70">iq_engine/kernel.cpp</span>
-                        <span class="text-[10px] border border-cyan-500/30 px-2 py-0.5 rounded">C++20</span>
-                    </div>
-                    <pre class="font-mono text-cyan-100 text-xs md:text-sm overflow-x-auto whitespace-pre-wrap"><code>template&lt;typename NeuroPlasticity&gt;
-class AdaptiveIQEngine {
-    static_assert(std::is_arithmetic_v&lt;NeuroPlasticity&gt;);
-    
-    [[nodiscard]] double CalculateIQ(const SessionData&amp; data) noexcept {
-        auto latency_factor = 1.0 / (data.avg_reaction + 0.01);
-        auto correct_rate = data.correct_answers / data.total_questions;
-        return (correct_rate * 150.0) + (latency_factor * 25.0);
-    }
-    
-    void AdjustDifficulty(double dynamic_threshold) {
-        current_difficulty = std::clamp(current_difficulty + dynamic_threshold, 0.3, 1.0);
-    }
-};</code></pre>
-                    <div class="glow-line mt-4"></div>
-                    <div class="flex flex-wrap gap-3 mt-4 text-xs text-gray-400">
-                        <span>⚡ 0.3ms inference</span>
-                        <span>🔒 Memory safe patterns</span>
-                        <span>📈 Real-time analytics</span>
-                    </div>
-                </div>
-                <div class="glass-ui w-full lg:w-1/3 reveal-item">
-                    <div class="text-center">
-                        <div class="text-4xl mb-2">⚡</div>
-                        <h3 class="text-xl font-bold">PERFORMANCE</h3>
-                        <div class="mt-4 space-y-2 text-sm">
-                            <div>🎯 120 FPS logic loop</div>
-                            <div>💾 Zero-copy architecture</div>
-                            <div>🧬 SIMD vectorization</div>
-                            <div>📊 10k+ questions pool</div>
-                        </div>
-                        <div class="mt-6 tech-badge inline-block text-xs">BENCHMARK READY</div>
-                    </div>
-                </div>
+            <h2 class="section-title reveal-item">Stack</h2>
+            <div class="flex flex-wrap justify-center gap-4 max-w-4xl mb-12">
+                <div class="glass-card px-6 py-3 reveal-item"><span class="font-mono text-cyan-400">C++ Programming</span></div>
+                <div class="glass-card px-6 py-3 reveal-item"><span class="font-mono text-cyan-400">OOP (Object-Oriented)</span></div>
+                <div class="glass-card px-6 py-3 reveal-item"><span class="font-mono text-cyan-400">Dev C++ IDE</span></div>
+                <div class="glass-card px-6 py-3 reveal-item"><span class="font-mono text-cyan-400">Binary File (.bin)</span></div>
+                <div class="glass-card px-6 py-3 reveal-item"><span class="font-mono text-cyan-400">File I/O</span></div>
+                <div class="glass-card px-6 py-3 reveal-item"><span class="font-mono text-cyan-400">Console UI</span></div>
+                <div class="glass-card px-6 py-3 reveal-item"><span class="font-mono text-cyan-400">Linked List</span></div>
+                <div class="glass-card px-6 py-3 reveal-item"><span class="font-mono text-cyan-400">Struct / Class</span></div>
+            </div>
+            
+            <h2 class="section-title reveal-item mt-8">Guided By</h2>
+            <div class="glass-card p-8 max-w-2xl w-full text-center reveal-item">
+                <div class="text-3xl mb-2">👨‍🏫</div>
+                <h3 class="text-xl font-bold">C++ / OOP Course</h3>
+                <p class="text-cyan-400 mt-2">បង្រៀនដោយ លោកគ្រូ Hinsy Uon និង Eav Phanith</p>
+                <p class="text-gray-400 text-sm mt-3">Subject: C++ Programming Language with OOP Concepts</p>
+            </div>
+            
+            <div class="mt-12 text-center border-t border-cyan-500/20 pt-8 w-full">
+                <p class="text-sm text-gray-400">QUIZ IQ</p>
+                <p class="text-xs text-gray-500 mt-2">© 2025 Quiz IQ Project Team · C++ / OOP Assignment</p>
+                <p class="text-xs text-gray-500">5 Members · IDs: 5800, 5826, 5829, 5832, 5833</p>
             </div>
         </section>
     </div>
 
     <script>
-        // --- THREE.JS BACKGROUND ENGINE (4K Optimized) ---
+        // Three.js Background (4K optimized)
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('#bg'), antialias: true, alpha: true });
-        
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.setSize(window.innerWidth, window.innerHeight);
         camera.position.setZ(30);
 
-        const geometry = new THREE.IcosahedronGeometry(14, 1);
-        const material = new THREE.MeshBasicMaterial({ color: 0x00f3ff, wireframe: true, transparent: true, opacity: 0.22 });
+        const geometry = new THREE.IcosahedronGeometry(13, 1);
+        const material = new THREE.MeshBasicMaterial({ color: 0x00f3ff, wireframe: true, transparent: true, opacity: 0.2 });
         const brainCore = new THREE.Mesh(geometry, material);
         scene.add(brainCore);
         
-        const innerGeo = new THREE.IcosahedronGeometry(9, 0);
-        const innerMat = new THREE.MeshBasicMaterial({ color: 0x2a6f8f, wireframe: true, transparent: true, opacity: 0.15 });
+        const innerGeo = new THREE.IcosahedronGeometry(8, 0);
+        const innerMat = new THREE.MeshBasicMaterial({ color: 0x3a8eff, wireframe: true, transparent: true, opacity: 0.12 });
         const innerCore = new THREE.Mesh(innerGeo, innerMat);
         scene.add(innerCore);
-
+        
         const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 2200;
+        const particlesCount = 2000;
         const posArray = new Float32Array(particlesCount * 3);
         for(let i = 0; i < particlesCount; i++) {
-            posArray[i*3] = (Math.random() - 0.5) * 110;
-            posArray[i*3+1] = (Math.random() - 0.5) * 70;
-            posArray[i*3+2] = (Math.random() - 0.5) * 90 - 20;
+            posArray[i*3] = (Math.random() - 0.5) * 120;
+            posArray[i*3+1] = (Math.random() - 0.5) * 80;
+            posArray[i*3+2] = (Math.random() - 0.5) * 100 - 20;
         }
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        const particlesMaterial = new THREE.PointsMaterial({ size: 0.07, color: 0x44ccff, transparent: true, opacity: 0.6 });
+        const particlesMaterial = new THREE.PointsMaterial({ size: 0.06, color: 0x44ccff, transparent: true, opacity: 0.5 });
         const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
         scene.add(particlesMesh);
         
         const starGeo = new THREE.BufferGeometry();
-        const starCount = 1000;
         const starPos = [];
-        for (let i = 0; i < starCount; i++) {
+        for (let i = 0; i < 800; i++) {
             starPos.push((Math.random() - 0.5) * 400);
             starPos.push((Math.random() - 0.5) * 200);
             starPos.push((Math.random() - 0.5) * 150 - 70);
         }
         starGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(starPos), 3));
-        const starMat = new THREE.PointsMaterial({ color: 0x88aaff, size: 0.1, transparent: true, opacity: 0.4 });
-        const stars = new THREE.Points(starGeo, starMat);
+        const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0x88aaff, size: 0.08, transparent: true, opacity: 0.4 }));
         scene.add(stars);
         
         function animate() {
             requestAnimationFrame(animate);
-            brainCore.rotation.y += 0.0018;
-            brainCore.rotation.x += 0.0012;
-            innerCore.rotation.y -= 0.0008;
-            innerCore.rotation.x += 0.0006;
-            particlesMesh.rotation.y += 0.0004;
+            brainCore.rotation.y += 0.0015;
+            brainCore.rotation.x += 0.001;
+            innerCore.rotation.y -= 0.0007;
+            particlesMesh.rotation.y += 0.0003;
             stars.rotation.y -= 0.0001;
             renderer.render(scene, camera);
         }
         animate();
 
-        // --- GSAP SCROLLTRIGGER ---
+        // GSAP Scroll
         gsap.registerPlugin(ScrollTrigger);
-        
-        const allSections = gsap.utils.toArray('section');
-        allSections.forEach((section, i) => {
-            if (i === 0) return;
-            gsap.fromTo(section, 
-                { opacity: 0, y: 50 },
-                { opacity: 1, y: 0, duration: 1.2, scrollTrigger: { trigger: section, start: "top 80%", end: "top 25%", scrub: 1 } }
-            );
+        const sections = gsap.utils.toArray('section');
+        sections.forEach((section, i) => {
+            if(i === 0) return;
+            gsap.fromTo(section, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1, scrollTrigger: { trigger: section, start: "top 80%", end: "top 25%", scrub: 1 } });
         });
-        
-        gsap.to(camera.position, {
-            z: 8, duration: 2, scrollTrigger: { trigger: ".ui-layer", start: "top top", end: "bottom bottom", scrub: 1.5 }
-        });
-        
-        // --- Mobile Menu Toggle ---
+        gsap.to(camera.position, { z: 9, duration: 2, scrollTrigger: { trigger: ".ui-layer", start: "top top", end: "bottom bottom", scrub: 1.5 } });
+
+        // Mobile Menu
         const menuBtn = document.getElementById('menuBtn');
         const mobileNav = document.getElementById('mobileNav');
-        
         menuBtn.addEventListener('click', () => {
             menuBtn.classList.toggle('active');
             mobileNav.classList.toggle('active');
             document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
         });
         
-        // Close mobile nav when clicking a link
-        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                menuBtn.classList.remove('active');
-                mobileNav.classList.remove('active');
-                document.body.style.overflow = '';
-                const targetId = link.getAttribute('data-nav');
-                if (targetId) {
-                    const targetSection = document.getElementById(targetId);
-                    if (targetSection) targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-        
-        // Desktop nav click
-        const desktopLinks = document.querySelectorAll('.nav-link');
-        desktopLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                const targetId = link.getAttribute('data-nav');
-                if (targetId) {
-                    const targetSection = document.getElementById(targetId);
-                    if (targetSection) targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-        
-        // Navbar hide on scroll (desktop & mobile)
+        // Navbar hide on scroll (but stays fixed)
         let lastScroll = 0;
-        const navbar = document.querySelector('.neon-nav');
+        const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
-            const current = window.scrollY;
-            if (current > lastScroll && current > 80 && !mobileNav.classList.contains('active')) {
+            if (window.scrollY > lastScroll && window.scrollY > 80 && !mobileNav.classList.contains('active')) {
                 navbar.style.transform = 'translateY(-100%)';
             } else {
                 navbar.style.transform = 'translateY(0)';
             }
-            lastScroll = current;
+            lastScroll = window.scrollY;
         });
         
-        // Intersection Observer for reveal items
-        const revealItems = document.querySelectorAll('.reveal-item');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('revealed');
-                    observer.unobserve(entry.target);
+        // Navigation clicks
+        document.querySelectorAll('.mobile-nav-link, .nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                menuBtn.classList.remove('active');
+                mobileNav.classList.remove('active');
+                document.body.style.overflow = '';
+                const targetId = link.getAttribute('data-nav');
+                if(targetId) {
+                    const target = document.getElementById(targetId);
+                    if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
-        }, { threshold: 0.15 });
-        revealItems.forEach(item => observer.observe(item));
+        });
         
-        // Resize handler for 4K
+        // Reveal Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('revealed'); });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.reveal-item').forEach(el => observer.observe(el));
+        
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
         
-        // Team card image hover effect
-        const teamCards = document.querySelectorAll('.team-card');
-        teamCards.forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                const img = card.querySelector('.team-avatar');
-                if(img) img.style.transform = 'scale(1.02)';
-            });
-            card.addEventListener('mouseleave', () => {
-                const img = card.querySelector('.team-avatar');
-                if(img) img.style.transform = 'scale(1)';
-            });
-        });
-        
-        // Initial reveal for visible items
+        // Initial reveal
         setTimeout(() => {
-            revealItems.forEach(item => {
-                const rect = item.getBoundingClientRect();
-                if (rect.top < window.innerHeight - 50) item.classList.add('revealed');
+            document.querySelectorAll('.reveal-item').forEach(el => {
+                if(el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add('revealed');
             });
         }, 200);
     </script>
