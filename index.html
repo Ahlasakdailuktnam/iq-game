@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>IQ QUIZ | C++ KERNEL — Neural Showcase</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.158.0/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;900&family=Outfit:wght@100;200;300;400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body { 
+            margin: 0; 
+            background: #000; 
+            color: #fff; 
+            font-family: 'Outfit', sans-serif; 
+            overflow-x: hidden; 
+        }
+        
+        canvas { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            outline: none; 
+            z-index: 1; 
+        }
+
+        /* UI Overlay */
+        .ui-layer { 
+            position: relative; 
+            z-index: 10; 
+            pointer-events: auto; 
+        }
+        
+        section { 
+            min-height: 100vh; 
+            width: 100%;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 4rem 2rem;
+            opacity: 0;
+            transform: translateY(50px);
+            pointer-events: auto;
+        }
+
+        /* Futuristic Navbar - Mobile Responsive */
+        .neon-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0, 243, 255, 0.25);
+            transition: transform 0.4s ease, background 0.3s ease;
+            pointer-events: auto;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 1.3rem;
+            background: linear-gradient(135deg, #fff, #00f3ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+            z-index: 1001;
+        }
+        
+        /* Desktop Navigation */
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+        
+        .nav-link {
+            font-weight: 400;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #ccc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: linear-gradient(90deg, #00f3ff, #a855f7);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: #00f3ff;
+        }
+        
+        .nav-link:hover::before {
+            width: 100%;
+        }
+        
+        /* Mobile Menu Button */
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 0.5rem;
+        }
+        
+        .menu-icon {
+            width: 28px;
+            height: 2px;
+            background: #00f3ff;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-icon::before,
+        .menu-icon::after {
+            content: '';
+            position: absolute;
+            width: 28px;
+            height: 2px;
+            background: #00f3ff;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-icon::before {
+            transform: translateY(-8px);
+        }
+        
+        .menu-icon::after {
+            transform: translateY(8px);
+        }
+        
+        .menu-btn.active .menu-icon {
+            background: transparent;
+        }
+        
+        .menu-btn.active .menu-icon::before {
+            transform: rotate(45deg);
+        }
+        
+        .menu-btn.active .menu-icon::after {
+            transform: rotate(-45deg);
+        }
+        
+        /* Mobile Nav Overlay */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 70%;
+            max-width: 280px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            transition: right 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border-left: 1px solid rgba(0, 243, 255, 0.3);
+        }
+        
+        .mobile-nav.active {
+            right: 0;
+        }
+        
+        .mobile-nav-link {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            color: #ddd;
+            text-transform: uppercase;
+            cursor: pointer;
+            padding: 0.8rem;
+            transition: all 0.3s;
+        }
+        
+        .mobile-nav-link:hover {
+            color: #00f3ff;
+            letter-spacing: 5px;
+        }
+        
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 10vw, 8rem);
+            line-height: 0.85;
+            background: linear-gradient(180deg, #fff 20%, rgba(0, 243, 255, 0.9) 80%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+            filter: drop-shadow(0 0 15px rgba(0,243,255,0.3));
+        }
+
+        .glass-ui {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            padding: 1.8rem;
+            border-radius: 24px;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            transform-origin: center;
+        }
+        
+        .glass-ui:hover {
+            border-color: rgba(0, 243, 255, 0.7);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -15px rgba(0, 243, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .tech-badge {
+            font-family: 'Orbitron', monospace;
+            color: #00f3ff;
+            border: 1px solid #00f3ff;
+            padding: 6px 16px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: rgba(0, 243, 255, 0.05);
+            border-radius: 40px;
+        }
+
+        .scroll-pill {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 60px;
+            background: linear-gradient(to bottom, #00f3ff, transparent);
+            z-index: 100;
+            opacity: 0.6;
+        }
+        
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.8rem;
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        
+        /* Team Cards */
+        .team-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        
+        .team-card {
+            background: rgba(10, 20, 30, 0.6);
+            backdrop-filter: blur(16px);
+            border-radius: 28px;
+            padding: 1.8rem 1.5rem;
+            width: 260px;
+            text-align: center;
+            transition: all 0.45s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            border: 1px solid rgba(0, 200, 255, 0.25);
+            cursor: pointer;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            border-color: #00f3ff;
+            box-shadow: 0 25px 35px -12px rgba(0, 200, 255, 0.3);
+        }
+        
+        .team-avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            object-fit: cover;
+            border: 2px solid rgba(0, 243, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .team-card:hover .team-avatar {
+            border-color: #00f3ff;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+            transform: scale(1.02);
+        }
+        
+        .team-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #fff, #a0e9ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .team-role {
+            font-size: 0.8rem;
+            color: #00f3ff;
+            letter-spacing: 1px;
+            margin-top: 0.25rem;
+        }
+        
+        .team-bio {
+            font-size: 0.7rem;
+            color: #aaa;
+            margin-top: 0.75rem;
+            line-height: 1.4;
+        }
+        
+        .section-title {
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #00f3ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 2rem;
+            text-align: center;
+            letter-spacing: -0.02em;
+        }
+        
+        /* Code block responsive */
+        .code-snippet {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            padding: 1.5rem;
+            font-family: monospace;
+            border-left: 4px solid #00f3ff;
+            overflow-x: auto;
+        }
+        
+        pre {
+            font-family: 'Courier New', monospace;
+            font-size: clamp(0.7rem, 3vw, 0.85rem);
+            color: #8efff8;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        
+        .glow-line {
+            height: 1px;
+            background: linear-gradient(90deg, #00f3ff, #a855f7, transparent);
+            width: 100%;
+        }
+        
+        /* Reveal animations */
+        .reveal-item {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        
+        .reveal-item.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Mobile responsive adjustments */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .menu-btn {
+                display: block;
+            }
+            
+            .nav-container {
+                padding: 0.8rem 1.2rem;
+            }
+            
+            section {
+                padding: 3rem 1.2rem;
+                justify-content: center;
+                text-align: center;
+            }
+            
+            .features-grid {
+                gap: 1.2rem;
+                grid-template-columns: 1fr;
+            }
+            
+            .team-card {
+                width: 100%;
+                max-width: 280px;
+            }
+            
+            .team-grid {
+                gap: 1.5rem;
+            }
+            
+            .glass-ui {
+                padding: 1.3rem;
+            }
+            
+            .hero-title {
+                font-size: 70px;
+                line-height: 1;
+                margin-bottom: 0.5rem;
+            }
+            
+            .tech-badge {
+                font-size: 0.6rem;
+            }
+            
+            .scroll-pill {
+                height: 45px;
+                bottom: 20px;
+            }
+        }
+        
+        /* Extra small devices */
+        @media (max-width: 480px) {
+            .team-avatar {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .team-name {
+                font-size: 1.1rem;
+            }
+            
+            .team-role {
+                font-size: 0.7rem;
+            }
+            
+            .glass-ui h3 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Neon Navbar -->
+    <div class="neon-nav">
+        <div class="nav-container">
+            <div class="logo">IQ::KERNEL</div>
+            <div class="nav-links">
+                <div class="nav-link" data-nav="home">Home</div>
+                <div class="nav-link" data-nav="features">Features</div>
+                <div class="nav-link" data-nav="team">Team</div>
+                <div class="nav-link" data-nav="tech">Technology</div>
+            </div>
+            <button class="menu-btn" id="menuBtn" aria-label="Menu">
+                <div class="menu-icon"></div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-link" data-nav="home">Home</div>
+        <div class="mobile-nav-link" data-nav="features">Features</div>
+        <div class="mobile-nav-link" data-nav="team">Team</div>
+        <div class="mobile-nav-link" data-nav="tech">Technology</div>
+    </div>
+
+    <div class="scroll-pill"></div>
+
+    <canvas id="bg"></canvas>
+
+    <div class="ui-layer">
+        <!-- HOME Section -->
+        <section id="home" style="opacity: 1; transform: translateY(0);">
+            <div class="tech-badge mb-4">Memory Safe C++ Logic</div>
+            <h1 class="hero-title">IQ QUIZ<br>GAME</h1>
+            <p class="mt-6 text-cyan-400 font-light tracking-[0.3em] uppercase text-xs sm:text-sm">Initiating Neural Simulation</p>
+            <div class="mt-10 flex gap-3">
+                <div class="w-10 h-[2px] bg-cyan-500/50"></div>
+                <div class="w-10 h-[2px] bg-cyan-500/80"></div>
+                <div class="w-10 h-[2px] bg-cyan-500"></div>
+            </div>
+        </section>
+
+        <!-- FEATURES Section -->
+        <section id="features">
+            <h2 class="section-title reveal-item">⚡ COGNITIVE MODULES</h2>
+            <div class="features-grid">
+                <div class="glass-ui reveal-item" style="transition-delay: 0.1s">
+                    <div class="text-4xl mb-3">🧠</div>
+                    <h3 class="text-xl md:text-2xl font-bold mb-2">ADAPTIVE_CORE</h3>
+                    <p class="text-gray-400 font-light text-sm">Real-time C++ complexity scaling based on cognitive reaction speed & accuracy metrics.</p>
+                    <div class="mt-3 text-xs text-cyan-400">latency: 0.3ms</div>
+                </div>
+                <div class="glass-ui reveal-item" style="transition-delay: 0.2s">
+                    <div class="text-4xl mb-3">⚡</div>
+                    <h3 class="text-xl md:text-2xl font-bold mb-2">LOW_LATENCY</h3>
+                    <p class="text-gray-400 font-light text-sm">Deterministic logic processing with zero-overhead memory management & lock-free queues.</p>
+                    <div class="mt-3 text-xs text-cyan-400">SIMD optimized</div>
+                </div>
+                <div class="glass-ui reveal-item" style="transition-delay: 0.3s">
+                    <div class="text-4xl mb-3">🏆</div>
+                    <h3 class="text-xl md:text-2xl font-bold mb-2">DYNAMIC SCORING</h3>
+                    <p class="text-gray-400 font-light text-sm">Multi-dimensional analytics: reaction time, logic depth, and pattern recognition scoring.</p>
+                    <div class="mt-3 text-xs text-cyan-400">ELO based</div>
+                </div>
+                <div class="glass-ui reveal-item" style="transition-delay: 0.4s">
+                    <div class="text-4xl mb-3">🎯</div>
+                    <h3 class="text-xl md:text-2xl font-bold mb-2">LOGIC CHALLENGES</h3>
+                    <p class="text-gray-400 font-light text-sm">1000+ procedural riddles, memory matrices & numerical sequences generated at runtime.</p>
+                    <div class="mt-3 text-xs text-cyan-400">infinite replay</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TEAM Section with Images -->
+        <section id="team">
+            <h2 class="section-title reveal-item">NEURAL ARCHITECTS</h2>
+            <div class="team-grid">
+                <div class="team-card reveal-item">
+                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Dr. Elena Voss" class="team-avatar">
+                    <div class="team-name">Dr. Elena Voss</div>
+                    <div class="team-role">Lead Cognitive Designer</div>
+                    <div class="team-bio">Ex-Neuroscape · Ph.D. Neuroscience · 12+ years experience</div>
+                </div>
+                <div class="team-card reveal-item">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Marcus Chen" class="team-avatar">
+                    <div class="team-name">Marcus Chen</div>
+                    <div class="team-role">C++ Core Architect</div>
+                    <div class="team-bio">Low-latency specialist · Lock-free data structures · SIMD expert</div>
+                </div>
+                <div class="team-card reveal-item">
+                    <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Sophia Ramirez" class="team-avatar">
+                    <div class="team-name">Sophia Ramirez</div>
+                    <div class="team-role">UX & Motion Director</div>
+                    <div class="team-bio">Fluid Interactions · Neural UI design · Award-winning motion</div>
+                </div>
+                <div class="team-card reveal-item">
+                    <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Alexei Volkov" class="team-avatar">
+                    <div class="team-name">Alexei Volkov</div>
+                    <div class="team-role">AI Logic Integration</div>
+                    <div class="team-bio">Procedural difficulty · Machine learning · Real-time adaptation</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TECHNOLOGY Section -->
+        <section id="tech">
+            <h2 class="section-title reveal-item">⚙️ C++ ENGINE CORE</h2>
+            <div class="flex flex-col lg:flex-row gap-6 justify-center max-w-6xl w-full">
+                <div class="glass-ui w-full lg:w-2/3 reveal-item">
+                    <div class="flex flex-wrap items-center gap-2 mb-4">
+                        <div class="w-3 h-3 rounded-full bg-cyan-500 animate-pulse"></div>
+                        <span class="text-xs font-mono opacity-70">iq_engine/kernel.cpp</span>
+                        <span class="text-[10px] border border-cyan-500/30 px-2 py-0.5 rounded">C++20</span>
+                    </div>
+                    <pre class="font-mono text-cyan-100 text-xs md:text-sm overflow-x-auto whitespace-pre-wrap"><code>template&lt;typename NeuroPlasticity&gt;
+class AdaptiveIQEngine {
+    static_assert(std::is_arithmetic_v&lt;NeuroPlasticity&gt;);
+    
+    [[nodiscard]] double CalculateIQ(const SessionData&amp; data) noexcept {
+        auto latency_factor = 1.0 / (data.avg_reaction + 0.01);
+        auto correct_rate = data.correct_answers / data.total_questions;
+        return (correct_rate * 150.0) + (latency_factor * 25.0);
+    }
+    
+    void AdjustDifficulty(double dynamic_threshold) {
+        current_difficulty = std::clamp(current_difficulty + dynamic_threshold, 0.3, 1.0);
+    }
+};</code></pre>
+                    <div class="glow-line mt-4"></div>
+                    <div class="flex flex-wrap gap-3 mt-4 text-xs text-gray-400">
+                        <span>⚡ 0.3ms inference</span>
+                        <span>🔒 Memory safe patterns</span>
+                        <span>📈 Real-time analytics</span>
+                    </div>
+                </div>
+                <div class="glass-ui w-full lg:w-1/3 reveal-item">
+                    <div class="text-center">
+                        <div class="text-4xl mb-2">⚡</div>
+                        <h3 class="text-xl font-bold">PERFORMANCE</h3>
+                        <div class="mt-4 space-y-2 text-sm">
+                            <div>🎯 120 FPS logic loop</div>
+                            <div>💾 Zero-copy architecture</div>
+                            <div>🧬 SIMD vectorization</div>
+                            <div>📊 10k+ questions pool</div>
+                        </div>
+                        <div class="mt-6 tech-badge inline-block text-xs">BENCHMARK READY</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // --- THREE.JS BACKGROUND ENGINE (4K Optimized) ---
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('#bg'), antialias: true, alpha: true });
+        
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.position.setZ(30);
+
+        const geometry = new THREE.IcosahedronGeometry(14, 1);
+        const material = new THREE.MeshBasicMaterial({ color: 0x00f3ff, wireframe: true, transparent: true, opacity: 0.22 });
+        const brainCore = new THREE.Mesh(geometry, material);
+        scene.add(brainCore);
+        
+        const innerGeo = new THREE.IcosahedronGeometry(9, 0);
+        const innerMat = new THREE.MeshBasicMaterial({ color: 0x2a6f8f, wireframe: true, transparent: true, opacity: 0.15 });
+        const innerCore = new THREE.Mesh(innerGeo, innerMat);
+        scene.add(innerCore);
+
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 2200;
+        const posArray = new Float32Array(particlesCount * 3);
+        for(let i = 0; i < particlesCount; i++) {
+            posArray[i*3] = (Math.random() - 0.5) * 110;
+            posArray[i*3+1] = (Math.random() - 0.5) * 70;
+            posArray[i*3+2] = (Math.random() - 0.5) * 90 - 20;
+        }
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({ size: 0.07, color: 0x44ccff, transparent: true, opacity: 0.6 });
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+        
+        const starGeo = new THREE.BufferGeometry();
+        const starCount = 1000;
+        const starPos = [];
+        for (let i = 0; i < starCount; i++) {
+            starPos.push((Math.random() - 0.5) * 400);
+            starPos.push((Math.random() - 0.5) * 200);
+            starPos.push((Math.random() - 0.5) * 150 - 70);
+        }
+        starGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(starPos), 3));
+        const starMat = new THREE.PointsMaterial({ color: 0x88aaff, size: 0.1, transparent: true, opacity: 0.4 });
+        const stars = new THREE.Points(starGeo, starMat);
+        scene.add(stars);
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            brainCore.rotation.y += 0.0018;
+            brainCore.rotation.x += 0.0012;
+            innerCore.rotation.y -= 0.0008;
+            innerCore.rotation.x += 0.0006;
+            particlesMesh.rotation.y += 0.0004;
+            stars.rotation.y -= 0.0001;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // --- GSAP SCROLLTRIGGER ---
+        gsap.registerPlugin(ScrollTrigger);
+        
+        const allSections = gsap.utils.toArray('section');
+        allSections.forEach((section, i) => {
+            if (i === 0) return;
+            gsap.fromTo(section, 
+                { opacity: 0, y: 50 },
+                { opacity: 1, y: 0, duration: 1.2, scrollTrigger: { trigger: section, start: "top 80%", end: "top 25%", scrub: 1 } }
+            );
+        });
+        
+        gsap.to(camera.position, {
+            z: 8, duration: 2, scrollTrigger: { trigger: ".ui-layer", start: "top top", end: "bottom bottom", scrub: 1.5 }
+        });
+        
+        // --- Mobile Menu Toggle ---
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileNav = document.getElementById('mobileNav');
+        
+        menuBtn.addEventListener('click', () => {
+            menuBtn.classList.toggle('active');
+            mobileNav.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+        });
+        
+        // Close mobile nav when clicking a link
+        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menuBtn.classList.remove('active');
+                mobileNav.classList.remove('active');
+                document.body.style.overflow = '';
+                const targetId = link.getAttribute('data-nav');
+                if (targetId) {
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // Desktop nav click
+        const desktopLinks = document.querySelectorAll('.nav-link');
+        desktopLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                const targetId = link.getAttribute('data-nav');
+                if (targetId) {
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // Navbar hide on scroll (desktop & mobile)
+        let lastScroll = 0;
+        const navbar = document.querySelector('.neon-nav');
+        window.addEventListener('scroll', () => {
+            const current = window.scrollY;
+            if (current > lastScroll && current > 80 && !mobileNav.classList.contains('active')) {
+                navbar.style.transform = 'translateY(-100%)';
+            } else {
+                navbar.style.transform = 'translateY(0)';
+            }
+            lastScroll = current;
+        });
+        
+        // Intersection Observer for reveal items
+        const revealItems = document.querySelectorAll('.reveal-item');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        revealItems.forEach(item => observer.observe(item));
+        
+        // Resize handler for 4K
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+        
+        // Team card image hover effect
+        const teamCards = document.querySelectorAll('.team-card');
+        teamCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const img = card.querySelector('.team-avatar');
+                if(img) img.style.transform = 'scale(1.02)';
+            });
+            card.addEventListener('mouseleave', () => {
+                const img = card.querySelector('.team-avatar');
+                if(img) img.style.transform = 'scale(1)';
+            });
+        });
+        
+        // Initial reveal for visible items
+        setTimeout(() => {
+            revealItems.forEach(item => {
+                const rect = item.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 50) item.classList.add('revealed');
+            });
+        }, 200);
+    </script>
+</body>
+</html>
